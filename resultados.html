@@ -86,12 +86,12 @@
     return n < 10 ? '0' + n : '' + n;
   }
 
-  function obtenerConteo(clave){
-    return fetch('https://api.countapi.xyz/get/' + NAMESPACE_VOTOS + '/' + clave)
-      .then(function(res){ return res.json(); })
-      .then(function(data){ return data && data.value ? data.value : 0; })
-      .catch(function(){ return 0; });
-  }
+function obtenerConteo(clave){
+  return fetch('https://countapi.mileshilliard.com/api/v1/get/' + clave)
+    .then(function(res){ return res.json(); })
+    .then(function(data){ return data && data.value ? Number(data.value) : 0; })
+    .catch(function(){ return 0; });
+}
 
   async function cargarResultados(){
     var resultados = [];
@@ -100,12 +100,12 @@
       var num = numeroGrupo(i);
       var fila = { grupo: num, conteos: {}, total: 0 };
 
-      for (var t = 0; t < TIPOS.length; t++){
-        var clave = 'grupo-' + num + '-' + TIPOS[t].clave;
-        var valor = await obtenerConteo(clave);
-        fila.conteos[TIPOS[t].clave] = valor;
-        fila.total += valor;
-      }
+     for (var t = 0; t < TIPOS.length; t++){
+  var clave = PREFIJO_VOTOS + '-grupo-' + num + '-' + TIPOS[t].clave;
+  var valor = await obtenerConteo(clave);
+  fila.conteos[TIPOS[t].clave] = valor;
+  fila.total += valor;
+}
 
       resultados.push(fila);
     }
