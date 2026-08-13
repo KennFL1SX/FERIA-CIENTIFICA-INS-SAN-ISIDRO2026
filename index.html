@@ -1202,14 +1202,14 @@
 
 <script>
 
-  var NAMESPACE_VOTOS = 'feria-sanisidro-2026';
+var PREFIJO_VOTOS = 'feria-sanisidro-2026';
 function votar(boton){
   var grupo = boton.parentElement.getAttribute('data-grupo');
   var ya = localStorage.getItem('votado-' + grupo);
   if (ya){ alert('Ya votaste por este proyecto.'); return; }
   var tipo = boton.getAttribute('data-voto');
-  var clave = 'grupo-' + grupo + '-' + tipo;
-  fetch('https://api.countapi.xyz/hit/' + NAMESPACE_VOTOS + '/' + clave)
+  var clave = PREFIJO_VOTOS + '-grupo-' + grupo + '-' + tipo;
+  fetch('https://countapi.mileshilliard.com/api/v1/hit/' + clave)
     .then(function(){
       localStorage.setItem('votado-' + grupo, tipo);
       var botones = boton.parentElement.querySelectorAll('.voto-btn');
