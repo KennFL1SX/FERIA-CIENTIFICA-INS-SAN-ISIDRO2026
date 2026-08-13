@@ -348,6 +348,28 @@
 .voto-btn:hover{ background:var(--accent-tint); }
 .voto-btn:disabled{ opacity:0.6; cursor:default; }
 .entry-votos .field-label{ display:block; margin-top:30px; }
+@media (max-width: 600px){
+  .field-row{
+    flex-direction: column;
+    gap: 18px;
+  }
+  .field{
+    min-width: 0;
+  }
+  .entry-title{
+    font-size: 1.3rem;
+  }
+  .wrap{
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+  .summary-lines p,
+  .summary-lines .field-blank{
+    line-height: 1.6;
+    margin-bottom: 14px;
+    }
+
+}
 
 </style>
 
@@ -1202,14 +1224,14 @@
 
 <script>
 
-var PREFIJO_VOTOS = 'feria-sanisidro-2026';
+  var NAMESPACE_VOTOS = 'feria-sanisidro-2026';
 function votar(boton){
   var grupo = boton.parentElement.getAttribute('data-grupo');
   var ya = localStorage.getItem('votado-' + grupo);
   if (ya){ alert('Ya votaste por este proyecto.'); return; }
   var tipo = boton.getAttribute('data-voto');
-  var clave = PREFIJO_VOTOS + '-grupo-' + grupo + '-' + tipo;
-  fetch('https://countapi.mileshilliard.com/api/v1/hit/' + clave)
+  var clave = 'grupo-' + grupo + '-' + tipo;
+  fetch('https://api.countapi.xyz/hit/' + NAMESPACE_VOTOS + '/' + clave)
     .then(function(){
       localStorage.setItem('votado-' + grupo, tipo);
       var botones = boton.parentElement.querySelectorAll('.voto-btn');
